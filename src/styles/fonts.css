@@ -1,0 +1,8 @@
+@font-face {
+  font-family: kanit;
+  src: url("../assets/fonts/Kanit-Light.ttf");
+}
+/* 设置全局英文字体 */
+* {
+  font-family: "kanit", sans-serif;
+}

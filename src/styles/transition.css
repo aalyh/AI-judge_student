@@ -1,0 +1,8 @@
+.switchPage-enter-active,
+.switchPage-leave-active {
+  transition-duration: 0.4s;
+}
+.switchPage-enter-from,
+.switchPage-leave-to {
+  transform: translateX(100%);
+}
