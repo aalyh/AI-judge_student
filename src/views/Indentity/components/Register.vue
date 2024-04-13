@@ -11,7 +11,7 @@ const SpeInput = defineAsyncComponent(
   () => import("@/components/speInput/index.vue"),
 );
 const form = ref<RegisterFormType>({
-  userName: "",
+  username: "",
   password: "",
   rePassword: "",
   mail: "",

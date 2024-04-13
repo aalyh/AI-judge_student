@@ -1,21 +1,20 @@
 import { tagModel } from "./tag";
 export interface RegisterFormType {
   // 指定所有索引的类型为string
-  [key: string]: string;
-  userName: string;
+  // [key: string]: string;
+  username: string;
   password: string;
-  rePassword: string;
-  mail: string;
-  code: string;
+  // rePassword: string;
+  // mail: string;
+  // code: string;
 }
 
 export interface LoginParamsModel {
-  name: string;
+  username: string;
   password: string;
 }
 
 export interface LoginModel {
-  tokenName: string;
   token: string;
 }
 

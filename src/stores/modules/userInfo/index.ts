@@ -26,14 +26,14 @@ const useUserStore = defineStore("useUserStore", {
         getInfoAPI()
           .then(
             ({ data }) => {
-              const { info } = data;
-              Object.keys(info).forEach((key) => {
-                this[key] = info[key];
+              console.log(data);
+              Object.keys(data).forEach((key) => {
+                this[key] = data[key];
               });
             },
             (err) => {
               reject();
-            },
+            }
           )
           .then(() => {
             showSuccessToast("登录成功, 正在跳转");

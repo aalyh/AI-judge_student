@@ -37,7 +37,7 @@ router.beforeEach(
         });
     }
     NProgress.done();
-  },
+  }
 );
 
 router.afterEach(() => {

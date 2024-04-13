@@ -3,16 +3,14 @@ import type {
   RegisterFormType,
   LoginModel,
   LoginParamsModel,
-  userInfoModel,
+  // userInfoModel,
 } from "../types/user";
 const schema = "user";
 const enum userAPI {
   logout = `${schema}/front/logout`,
-  code = `${schema}/mails/mailCode`,
-  register = `${schema}/front/register`,
-  login = `${schema}/front/login`,
-  getInfo = `${schema}/front/info`,
-  retrievePwd = `${schema}/front/retrieve`,
+  register = `${schema}/register`,
+  login = `${schema}/login`,
+  getInfo = `${schema}/info`,
 }
 
 /**
@@ -54,30 +52,30 @@ export async function logoutAPI() {
  * @param mail 邮箱
  * @returns 验证码
  */
-export async function sendCodeAPI(mail: string) {
-  return await request.get({
-    url: userAPI.code + `/${mail}`,
-  });
-}
+// export async function sendCodeAPI(mail: string) {
+//   return await request.get({
+//     url: userAPI.code + `/${mail}`,
+//   });
+// }
 
 /**
  * 未登录状态下修改密码
  * @param data
  * @returns
  */
-export async function retrievePwdAPI(data: RegisterFormType) {
-  return await request.post({
-    url: userAPI.retrievePwd + `/${data.mail}`,
-    data,
-  });
-}
+// export async function retrievePwdAPI(data: RegisterFormType) {
+//   return await request.post({
+//     url: userAPI.retrievePwd + `/${data.mail}`,
+//     data,
+//   });
+// }
 
 /**
  * 根据token获取用户信息
  * @returns
  */
-export async function getInfoAPI() {
-  return await request.get<{ info: userInfoModel }>({
+export function getInfoAPI() {
+  return request.post({
     url: userAPI.getInfo,
   });
 }

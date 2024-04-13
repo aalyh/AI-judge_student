@@ -13,7 +13,9 @@ import {
 } from "./types/index";
 import useUserStore from "@/stores/modules/userInfo";
 import { showFailToast } from "vant";
+import { getToken } from "@/utils/token";
 let userStore: any;
+let token: string | undefined;
 
 class HttpRequest {
   service: AxiosInstance;
@@ -21,7 +23,7 @@ class HttpRequest {
   constructor() {
     this.service = axios.create({
       baseURL: import.meta.env.VITE_APP_BASE_URL,
-      timeout: 5 * 1000,
+      timeout: 5 * 10000,
     });
 
     this.service.interceptors.request.use(
@@ -31,9 +33,11 @@ class HttpRequest {
          */
         if (!userStore) {
           userStore = useUserStore();
+          console.log(getToken());
+          token = getToken()?.token;
         }
-        if (import.meta.env.VITE_APP_TOKEN_KEY && userStore.token) {
-          config.headers[import.meta.env.VITE_APP_TOKEN_KEY] = userStore.token;
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
       },
@@ -49,7 +53,7 @@ class HttpRequest {
           // if return true, axios will execution interceptor method
           return true;
         },
-      },
+      }
     );
 
     this.service.interceptors.response.use(
@@ -81,7 +85,7 @@ class HttpRequest {
       },
       (error: any) => {
         return Promise.reject(error);
-      },
+      }
     );
   }
 
@@ -120,7 +124,7 @@ class HttpRequest {
   }
   upload<T = string>(
     fileItem: UploadFileItemModel,
-    config?: UploadRequestConfig,
+    config?: UploadRequestConfig
   ): Promise<ResponseModel<T>> | null {
     if (!import.meta.env.VITE_UPLOAD_URL) return null;
 

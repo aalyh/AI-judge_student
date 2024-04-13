@@ -1,20 +1,20 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
-// import Identify from "@/views/Indentity/index.vue";
+import Identify from "@/views/Indentity/index.vue";
 import Layout from "@/layout/index.vue";
 export const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "identify",
-    component: Layout,
+    component: Identify,
   },
   {
     path: "/main",
     name: "layout",
     component: Layout,
-    redirect: "/home",
+    // redirect: "/home",
     children: [
       {
-        path: "/home",
+        path: "home",
         name: "home",
         component: () => import("@/views/home/index.vue"),
         meta: {
@@ -24,7 +24,7 @@ export const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/chat",
+        path: "chat",
         name: "chat",
         component: () => import("@/views/chat/index.vue"),
         meta: {
@@ -34,7 +34,7 @@ export const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/user",
+        path: "user",
         name: "user",
         component: () => import("@/views/user/index.vue"),
         meta: {
@@ -51,6 +51,11 @@ export const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/studyReport/index.vue"),
   },
   {
+    path: "/markingResult",
+    name: "markingResult",
+    component: () => import("@/views/markingResult/index.vue"),
+  },
+  {
     path: "/404",
     name: "404",
     component: () => import("@/views/404/index.vue"),
@@ -62,4 +67,3 @@ export const router = createRouter({
   history: createWebHashHistory(),
   routes,
 });
-

@@ -25,7 +25,7 @@ const activeName = ref("b");
         <van-col span="8">
           <van-tabs v-model:active="activeName">
             <van-tab title="班级排名" name="a">班级排名</van-tab>
-            <van-tab title="年级排名" name="b">年级paim</van-tab>
+            <!-- <van-tab title="年级排名" name="b">年级paim</van-tab> -->
           </van-tabs>
         </van-col>
       </van-row>

@@ -16,7 +16,7 @@ const tokenLogin = async () => {
     let now = new Date().getTime();
     if (now < expireTime) {
       userStore.login(token).then(() => {
-        router.replace({ path: "/home" });
+        router.replace({ path: "/main/home" });
       });
     }
   } else {
@@ -26,10 +26,10 @@ const tokenLogin = async () => {
 
 const LoginPage = defineAsyncComponent(() => import("./components/Login.vue"));
 const RegisterPage = defineAsyncComponent(
-  () => import("./components/Register.vue"),
+  () => import("./components/Register.vue")
 );
 const HeaderBar = defineAsyncComponent(
-  () => import("@/components/headbar/index.vue"),
+  () => import("@/components/headbar/index.vue")
 );
 const { deviceHeight } = inject("$deviceStore") as deviceStoreType;
 const activeComp = shallowRef();
@@ -45,16 +45,20 @@ const handleChoose = (e: Event) => {
   }
 };
 const handleLogin = (params: LoginParamsModel) => {
+  console.log(params);
   loginAPI(params).then(
     ({ data }) => {
       const { token } = data;
+      console.log(data);
       userStore.login(token).then(() => {
         setTimeout(() => {
-          router.replace({ path: "/main" });
+          router.replace({ path: "/main/home" });
         }, 400);
       });
     },
-    (err) => {},
+    (err) => {
+      console.log(err);
+    }
   );
 };
 tokenLogin();

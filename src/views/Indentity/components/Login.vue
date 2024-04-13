@@ -2,32 +2,33 @@
 import { showFailToast, showSuccessToast, showToast } from "vant";
 import { debounce } from "@/utils/fluentCtrl/index";
 import { filterCN } from "@/filter/input";
-import { sendCodeAPI, retrievePwdAPI } from "@/api/user";
-import { mailReg } from "@/utils/regExp";
+// import { loginAPI } from "@/api/user";
+// import { mailReg } from "@/utils/regExp";
 import { RegisterFormType } from "@/types/user";
-interface loginForm {
-  name: string | number;
+interface LoginForm {
+  username: string | number;
   password: string;
 }
 interface changePwdFormTip {
   icon: string;
   placeholder: string;
 }
-const loginForm: loginForm = reactive({
-  name: "",
+const loginForm: LoginForm = reactive({
+  username: "",
   password: "",
 });
 const emits = defineEmits<{
-  (e: "onLogin", arg1: loginForm): void;
+  (e: "onLogin", arg1: LoginForm): void;
 }>();
 const login = debounce((): void => {
-  if (!loginForm.name || !loginForm.password) {
+  console.log(loginForm.username, loginForm.password);
+  if (!loginForm.username || !loginForm.password) {
     showFailToast("请输入账号密码");
     return;
   }
   emits("onLogin", loginForm);
 });
-const updateForm = debounce((e: InputEvent, key: "name" | "password") => {
+const updateForm = debounce((e: InputEvent, key: "username" | "password") => {
   loginForm[key] = (e.target as HTMLInputElement).value;
 });
 
@@ -35,7 +36,7 @@ const isLogin = ref(true);
 function exchangeForm() {
   if (isLogin.value) {
     setTimeout(() => {
-      loginForm.name = "";
+      loginForm.username = "";
       loginForm.password = "";
     }, 400);
   } else {
@@ -48,11 +49,8 @@ function exchangeForm() {
 }
 
 const changePwdForm: RegisterFormType = reactive({
-  userName: "",
+  username: "",
   password: "",
-  rePassword: "",
-  mail: "",
-  code: "",
 });
 const changePwdFormTips: changePwdFormTip[] = [
   { icon: "contact-o", placeholder: "请输入账号" },
@@ -61,29 +59,6 @@ const changePwdFormTips: changePwdFormTip[] = [
   { icon: "envelop-o", placeholder: "请输入QQ邮箱" },
   { icon: "completed-o", placeholder: "请输入验证码" },
 ];
-
-const codeBtnContent = ref<string | number>("发送验证码");
-const sendCode = debounce((): void => {
-  if (mailReg.test(changePwdForm.mail)) {
-    sendCodeAPI(changePwdForm.mail).then(({ code }) => {
-      showToast({ type: "success", message: "验证码已发送" });
-      if (code == 200) {
-        codeBtnContent.value = 60;
-        let codeTimer: NodeJS.Timeout | null = setInterval(() => {
-          (codeBtnContent.value as number)--;
-        }, 1 * 1000);
-
-        setTimeout(() => {
-          clearInterval(codeTimer as NodeJS.Timeout);
-          codeTimer = null;
-          codeBtnContent.value = "发送验证码";
-        }, 60 * 1000);
-      }
-    });
-  } else {
-    showToast({ type: "fail", message: "请检查邮箱格式" });
-  }
-});
 
 const changePwd = () => {
   if (Object.values(changePwdForm).some((v) => !v)) {
@@ -94,20 +69,20 @@ const changePwd = () => {
     showFailToast("密码不一致");
     return;
   }
-  retrievePwdAPI(changePwdForm).then(({ code }) => {
-    if (code == 200) {
-      showSuccessToast("修改成功");
-      setTimeout(() => {
-        exchangeForm();
-      }, 450);
-    }
-  });
+  // retrievePwdAPI(changePwdForm).then(({ code }) => {
+  //   if (code == 200) {
+  //     showSuccessToast("修改成功");
+  //     setTimeout(() => {
+  //       exchangeForm();
+  //     }, 450);
+  //   }
+  // });
 };
-const updateChangePwdForm = debounce(
-  (e: InputEvent, key: keyof RegisterFormType) => {
-    changePwdForm[key] = (e.target as HTMLInputElement).value;
-  },
-);
+// const updateChangePwdForm = debounce(
+//   (e: InputEvent, key: keyof RegisterFormType) => {
+//     changePwdForm[key] = (e.target as HTMLInputElement).value;
+//   }
+// );
 </script>
 
 <template>
@@ -131,8 +106,8 @@ const updateChangePwdForm = debounce(
                 class="loginInput"
                 placeholder="请输入账号"
                 :maxlength="25"
-                :value="loginForm.name"
-                @input.trim="(e) => updateForm(e as InputEvent, 'name')"
+                :value="loginForm.username"
+                @input.trim="(e) => updateForm(e as InputEvent, 'username')"
                 @keyup="filterCN"
               />
             </li>
