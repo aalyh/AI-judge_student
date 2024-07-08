@@ -1,0 +1,45 @@
+/* 不是组件自带的转圈loading, 而是作用于元素的自定义运动形态loading动画 */
+
+// 跳动
+.custom-loading-jump {
+  animation-name: jump;
+  animation-direction: alternate;
+  animation-delay: 0s;
+  animation-duration: 1.2s; /* 一个周期1.2s应该够了 */
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); /*打点*/
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+}
+
+@keyframes jump {
+  0% {
+    transform: translateY(0);
+    animation-timing-function: ease-out; /* 上升阶段加速 */
+  }
+  25% {
+    transform: translateY(-15%); /* 上升到最高点 */
+  }
+  26% {
+    animation-timing-function: ease-in; /* 下落阶段减速 */
+  }
+  50% {
+    transform: translateY(0); /* 下落到起始点 */
+  }
+  51% {
+    animation-timing-function: ease-out; /* 再次上升阶段加速 */
+  }
+  75% {
+    transform: translateY(-15%); /* 再次上升到最高点 */
+  }
+  76% {
+    animation-timing-function: linear; /* 最高点暂停暂停 */
+  }
+  90% {
+    /* 最后的下落阶段加速 */
+    transform: translateY(-15%);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(0); /* 下落到起始点 */
+  }
+}
